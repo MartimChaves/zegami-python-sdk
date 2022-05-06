@@ -129,7 +129,7 @@ class Collection():
         """On-construction sets source instances using of collection data."""
 
         if self.version < 2:
-            source_data = self._data
+            source_data = self._data.copy()
             source_data['name'] = 'None'
             self._sources = [Source(self, source_data)]
 
@@ -1088,9 +1088,8 @@ class Collection():
             self.replace_data(new_rows)
 
         # validate and register uploadable sources against existing sources
-        for s in uploadable_sources:
-            for i, us in enumerate(uploadable_sources):
-                us._register_source(i, self.sources[i])
+        for i, us in enumerate(uploadable_sources):
+            us._register_source(i, self.sources[i])
 
         # upload
         for us in uploadable_sources:
